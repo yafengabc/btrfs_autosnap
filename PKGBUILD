@@ -20,6 +20,7 @@ build() {
 package() {
   #install scripts to /usr/bin
 install -D "${srcdir}/${pkgname}/btrfs_autosnap.py" "${pkgdir}/usr/bin/btrfs_autosnap.py"
+install -D "${srcdir}/${pkgname}/btrfs_rollback.py" "${pkgdir}/usr/bin/btrfs_rollback.py"
   # install systemd files
 install -Dm644 "${srcdir}/${pkgname}/btrfs_autosnap@.service" "${pkgdir}/usr/lib/systemd/system/btrfs_autosnap@.service"
 }

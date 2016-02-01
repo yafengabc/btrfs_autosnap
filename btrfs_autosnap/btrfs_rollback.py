@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 import os
 
@@ -22,8 +23,11 @@ def rollback(device,root):
     for i in snap_vols:
         print(str(index)+'.'+i)
         index+=1
-    index=input("Please input a number:")
-    select=snap_vols[int(index)]
+    index=input("::Please input a number(default 0):")
+    try:
+        select=snap_vols[int(index)]
+    except:
+        select=snap_vols[0]
     print('::Warning! Will use',select," to recover ",root,"!!!")
     ask=input("::Please enter 'yes' to continue:")
     if ask=='yes':
@@ -31,10 +35,11 @@ def rollback(device,root):
         os.system('btrfs subvol delete '+base+root)
         print('::Rollback the snapshot')
         os.system('btrfs subvol snapshot '+base+select+' '+base+root)
-
+        print("::Done...")
     else:
         print('::Do nothing! exit.')
-    
+    os.system('umount '+base)
+
 if __name__=="__main__":
     device,snap_s=get_cmd()
     rollback(device,snap_s)
