@@ -11,7 +11,6 @@ def get_grub_header():
     global grub_header
     global def_entry
     begin=0
-    #Get the /boot/grub/grub.cfg content
     fi=open('/boot/grub/grub.cfg')
     for i in fi:
         if i!=autostring:
@@ -19,7 +18,6 @@ def get_grub_header():
         else:
             break
     fi.close()
-    #get the Archlinux grub entry
     fi=open('/boot/grub/grub.cfg')
     for i in fi:
         if i.find('Arch Linux')!=-1:
@@ -30,7 +28,6 @@ def get_grub_header():
                 break
     fi.close()
 
-#Get the command line argvs
 def get_cmd():
     device=root=''
     try:
@@ -39,7 +36,6 @@ def get_cmd():
         print("::please input the params")
     return device,root
 
-#manage the snapshot delete the old snapshot keep last 5 snapshot
 def manage_snap(device,root):
     global grub_header
     sub_vols=os.listdir('/mnt')
@@ -47,7 +43,6 @@ def manage_snap(device,root):
     snap_vols.reverse()
     while len(snap_vols)>5:
         os.system('btrfs subvol delete /mnt/'+snap_vols.pop())
-    #add some boot entry for snapshot
     get_grub_header()
     for i in snap_vols:
         bootstring=autostring
@@ -57,8 +52,6 @@ def manage_snap(device,root):
     fi=open('/boot/grub/grub.cfg','w')
     fi.write(grub_header)
     fi.close()
-
-#make a snapshot 
 def make_snap(device,snap_s):
     print("::Mounting the root device")
     os.system("mount /dev/"+device+" /mnt")
