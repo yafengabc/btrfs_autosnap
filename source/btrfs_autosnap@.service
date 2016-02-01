@@ -1,0 +1,9 @@
+[Unit]
+Description=auto snapshot btrfs filesystem on %I
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/btrfs_autosnap.py %I
+
+[Install]
+WantedBy=multi-user.target
