@@ -32,6 +32,7 @@ def rollback(device,root):
     ask=input("::Please enter 'yes' to continue:")
     if ask=='yes':
         print('::Delete the subvol',root)
+        os.system('btrfs subvol delete '+base+root+"/var/lib/machines")
         os.system('btrfs subvol delete '+base+root)
         print('::Rollback the snapshot')
         os.system('btrfs subvol snapshot '+base+select+' '+base+root)
